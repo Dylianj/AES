@@ -81,7 +81,40 @@ def shift_rows(matriz):
     return nueva
 
 #PARTE 4: MixColumns
+def gmul(a, b):
+    p = 0
+    for i in range(8):
+        if b & 1:
+            p ^= a
+        hi = a & 0x80
+        a = (a << 1) & 0xFF
+        if hi:
+            a ^= 0x1B
+        b >>= 1
+    return p
 
+MIX_COLUMNS_MATRIX = [
+    [2, 3, 1, 1],
+    [1, 2, 3, 1],
+    [1, 1, 2, 3],
+    [3, 1, 1, 2]
+]
+
+def mix_single_column(col):
+    res = [0, 0, 0, 0]
+    for i in range(4):
+        for j in range(4):
+            res[i] ^= gmul(MIX_COLUMNS_MATRIX[i][j], col[j])
+    return res
+
+def mix_columns(state):
+    nueva = inicializar(4, 4)
+    for j in range(4):
+        col = [state[i][j] for i in range(4)]
+        col_res = mix_single_column(col)
+        for i in range(4):
+            nueva[i][j] = col_res[i]
+    return nueva
 
 #CIFRADO 
 
