@@ -38,7 +38,17 @@ def xor_matrices(m1, m2):
     return nueva
 #PARTE 2: SubBytes
 
-#PARTE 3: ShiftRows
+#PARTE 3: ShiftRows(Emilio)
+def inicializar(filas, columnas):
+    return [[0 for _ in range(columnas)] for _ in range(filas)]
+
+def shift_rows(matriz):
+    filas, columnas = dimension(matriz)
+    nueva = inicializar(filas, columnas)
+    for i in range(filas):
+        for j in range(columnas):
+            nueva[i][j] = matriz[i][(j + i) % columnas]
+    return nueva
 
 #PARTE 4: MixColumns
 
